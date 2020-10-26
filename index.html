@@ -138,7 +138,7 @@
 
 		//handler for click
         function MouseClick(e) {
-			playSound('shoot1')
+			playSoundEffects('shoot1.wav')
 			mouseClicked = true
         }
 
@@ -146,9 +146,17 @@
         window.addEventListener('keydown', ArrowPressed);
         window.addEventListener('keyup', ArrowReleased);
 		window.addEventListener('click', MouseClick);
-		window.onload = playSound()
-		function playSound(sound) {
-			const audio = new Audio('sounds/' + sound + '.wav');
+
+		window.onload = playSoundBackground('track1.mp3')
+
+		function playSoundEffects(sound) {
+			const audio = new Audio('sounds/' + sound);
+			audio.play();
+		}
+
+		function playSoundBackground(sound) {
+			const audio = new Audio('sounds/' + sound);
+			audio.volume = 0.0;
 			audio.play();
 		}
          
