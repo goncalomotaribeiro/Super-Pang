@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Super Pang</title>
+	<style>
+		canvas {
+			margin: auto;
+			display: block;
+		}
+		body{
+			background-color: rgb(17, 17, 17);
+		}
+	</style>
+</head>
+
+<body>
+	<canvas id="myCanvas" width="800" height="500" style="border:solid 3px blue">
+		Your browser does not support HTML5 Canvas.
+	</canvas>
+	<script>
+		const canvas = document.querySelector('#myCanvas');
+		const ctx = canvas.getContext("2d");
+
+		const W = canvas.width, H = canvas.height;
+
+		let images = {};
+		let totalResources = 2;
+		let numResourcesLoaded = 0;
+		let fps = 15;
+
+		loadImage("player");
+		loadImage("bg");
+		loadImage("gun");
+
+		function loadImage(name) {
+			images[name] = new Image();
+			images[name].src = "images/" + name + ".png";
+			images[name].onload = function () {
+				resourceLoaded();	//only starts the animation after loading all images			
+			};
+		}
+
+		function resourceLoaded() {
+			numResourcesLoaded++;
+			if (numResourcesLoaded == totalResources) {
+				setInterval(render, 1000 / fps); //start animation
+			}
+		}
+
+		/*____________________________________________________________________________________________________________________*/
+
+		let rightKey = false;
+        let leftKey = false;
+		let mouseClicked = false;
+			
+		let frameIndex = 0;
+		let frameIndex2 = 1;
+		let sx = 32.4;
+		let sy = 34.6;
+		let swidth = W/2;
+		let sheight = H - images["player"].height + 108;
+
+		let cx = 127;
+		let cy = 0;
+
+		let gunY = sheight
+		let gunX = swidth
+		let shoot = 0
+
+		function render() {
+			ctx.clearRect(0, 0, W, H);
+			if (rightKey && swidth < W - 100)
+			{
+				swidth += 18;
+				cy = 34 * 2
+				cx = frameIndex * 31.57
+			}
+			if (leftKey && swidth > 20){
+				swidth -= 18;
+				cy = 0
+				cx = frameIndex * 31.88
+			}
+			if (mouseClicked == true) {
+				cy = 0
+				cx = 160
+				shoot = 1
+				gunX = swidth + 15
+				gunY = sheight
+			}
+
+			ctx.drawImage(images["bg"],10 , 10, 253, 188, 0, 0, W, H);
+			
+			if(shoot == 1 && gunY > 10){
+				ctx.drawImage(images["gun"], gunX, gunY, 40, 490);
+				//ctx.drawImage(images["gun"], frameIndex, 0, 50, 290, gunX, gunY, 120, 690); //40, 490
+				//ctx.drawImage(images["guns"], frameIndex2 * 20, 0, 20, 290, gunX-10, gunY, 50, 690); //40, 490
+			}else{
+				gunX = swidth
+				gunY = sheight
+				shoot = 0
+			}
+
+			ctx.drawImage(images["player"], cx, cy, sx, sy, swidth, sheight, 95, 95);
+
+			mouseClicked = false
+			cx = 127
+			gunY-= 15
+
+			frameIndex++;
+			if (frameIndex == 4)
+				frameIndex = 0;
+				frameIndex2 = 1
+		}
+
+		//handler for keydown
+        function ArrowPressed(e) {
+            if (e.keyCode == 68) {
+                rightKey = true;
+            }
+            if (e.keyCode == 65) {
+                leftKey = true;
+            }
+            e.preventDefault()
+        }
+
+        //handler for keyup
+        function ArrowReleased(e) {
+            if (e.keyCode == 68){
+				rightKey = false;
+				cy = 0
+				cx = 127
+			} else if (e.keyCode == 65)
+                leftKey = false;
+				cx = 127
+        }
+
+		//handler for click
+        function MouseClick(e) {
+			playSound('shoot1')
+			mouseClicked = true
+        }
+
+		//sets handlers for events keydown & keyup
+        window.addEventListener('keydown', ArrowPressed);
+        window.addEventListener('keyup', ArrowReleased);
+		window.addEventListener('click', MouseClick);
+		window.onload = playSound()
+		function playSound(sound) {
+			const audio = new Audio('sounds/' + sound + '.wav');
+			audio.play();
+		}
+         
+	</script>
+</body>
+
+</html>
