@@ -56,7 +56,6 @@
 		let mouseClicked = false;
 			
 		let frameIndex = 0;
-		let frameIndex2 = 1;
 		let sx = 32.4;
 		let sy = 34.6;
 		let swidth = W/2;
@@ -68,6 +67,8 @@
 		let gunY = sheight
 		let gunX = swidth
 		let shoot = 0
+
+		let bgY = Math.floor(Math.random() * 20) * 200+10; 
 
 		function render() {
 			ctx.clearRect(0, 0, W, H);
@@ -90,12 +91,10 @@
 				gunY = sheight
 			}
 
-			ctx.drawImage(images["bg"],10 , 10, 253, 188, 0, 0, W, H);
+			ctx.drawImage(images["bg"],10 , bgY, 253, 188, 0, 0, W, H);
 			
 			if(shoot == 1 && gunY > 10){
 				ctx.drawImage(images["gun"], gunX, gunY, 40, 490);
-				//ctx.drawImage(images["gun"], frameIndex, 0, 50, 290, gunX, gunY, 120, 690); //40, 490
-				//ctx.drawImage(images["guns"], frameIndex2 * 20, 0, 20, 290, gunX-10, gunY, 50, 690); //40, 490
 			}else{
 				gunX = swidth
 				gunY = sheight
@@ -111,7 +110,6 @@
 			frameIndex++;
 			if (frameIndex == 4)
 				frameIndex = 0;
-				frameIndex2 = 1
 		}
 
 		//handler for keydown
