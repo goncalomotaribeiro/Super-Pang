@@ -29,31 +29,31 @@ function resourceLoaded() {
 
 /*______________________________________________CLASSES______________________________________________________________________*/
 
-class Player{
-    constructor(img){
+class Player {
+    constructor(img) {
         this.img = img
         this.swidth = img.width / 8
         this.sheight = img.height / 3
         this.cx = this.swidth * 4 + 4
         this.cy = -2
         this.sx = W / 2
-        this.sy = H - img.height -10;
+        this.sy = H - img.height - 10;
         this.w = 95
         this.h = 95
     }
 
-    draw(){
+    draw() {
         ctx.drawImage(this.img, this.cx, this.cy, this.swidth, this.sheight, this.sx, this.sy, this.w, this.h);
     }
 
-    update(cX, cY){
+    update(cX, cY) {
         this.cx = cX
         this.cy = cY
     }
 }
 
-class Gun{
-    constructor(img, sx, sy){
+class Gun {
+    constructor(img, sx, sy) {
         this.img = img
         this.sx = sx
         this.sy = sy
@@ -61,15 +61,27 @@ class Gun{
         this.h1 = 490
     }
 
-    draw(){
+    draw() {
         ctx.drawImage(this.img, this.sx, this.sy, this.w1, this.h1);
     }
 
-    update(sX, sY){
+    update(sX, sY) {
         this.sx = sX
         this.sy = sY
     }
 }
+
+//definições das bolas
+class Ball {
+    constructor(x, y, velocidade) {
+        this.x = x;
+        this.y = y;
+        this.velocidade = velocidade;
+        this.raio = 20;
+        this.cor = 'red'
+    }
+}
+
 
 /*______________________________________________RENDER______________________________________________________________________*/
 
@@ -83,14 +95,13 @@ let gun1 = new Gun(images["gun"])
 
 function render() {
     ctx.clearRect(0, 0, W, H);
-    ctx.drawImage(images["bg"],10 , bgY, 253, 188, 0, 0, W, H);
+    ctx.drawImage(images["bg"], 10, bgY, 253, 188, 0, 0, W, H);
 
-    if (rightKey && player1.sx < W - 100)
-    {
+    if (rightKey && player1.sx < W - 100) {
         player1.update(frameIndex * player1.swidth + 2, player1.sheight * 2)
         player1.sx += 22;
     }
-    if (leftKey && player1.sx > 20){
+    if (leftKey && player1.sx > 20) {
         player1.update(frameIndex * player1.swidth + 2, - 2)
         player1.sx -= 22;
     }
@@ -100,11 +111,11 @@ function render() {
         gun1.update(player1.sx + 15, player1.sy)
         shoot = 1
     }
-    
-    if(shoot == 1 && gun1.sy > 10){
+
+    if (shoot == 1 && gun1.sy > 10) {
         gun1.draw()
         gun1.update(gun1.sx, gun1.sy - 15)
-    }else{
+    } else {
         gun1.update(player1.sx, player1.sy)
         shoot = 0
     }
@@ -112,7 +123,7 @@ function render() {
 
     player1.draw()
     player1.update(player1.swidth * 4 + 4, -2)
-    
+
     frameIndex++;
     if (frameIndex == 4)
         frameIndex = 0;
@@ -131,12 +142,12 @@ function ArrowPressed(e) {
 }
 
 function ArrowReleased(e) {
-    if (e.keyCode == 68){
+    if (e.keyCode == 68) {
         rightKey = false;
         player1.cy = -2
     } else if (e.keyCode == 65)
         leftKey = false;
-        player1.cx = player1.swidth * 4 + 4
+    player1.cx = player1.swidth * 4 + 4
 }
 
 function MouseClick(e) {
@@ -163,6 +174,12 @@ function playSoundBackground(sound) {
     audio.play();
 }
 
+
+
+
+
+
+
 /*class Enemy {
     constructor(x, y, raio, color, velocidade){
         this.x = x;
@@ -171,14 +188,14 @@ function playSoundBackground(sound) {
            this.color = color;
         this.velocidade = velocidade;
        }
-    
+
     draw(){
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.raio, 0, Math.PI * 2, false);
     ctx.fillStyle = this.color;
     ctx.fill();
     }
-    
+
     update(){
     this.draw()
     this.x = this.x + this.velocidade.x
@@ -189,10 +206,10 @@ function playSoundBackground(sound) {
     function spawnEnemies(){
     setInterval(() => {
     const raio = Math.random() * (30 - 4) + 4
-    
+
     let x
-    let y 
-    
+    let y
+
     if (Math.random() < 0.5){
     x = Math.random() < 0.5 ? 0 - raio : canvas.width + raio
     y = Math.random() * canvas.height
@@ -200,15 +217,15 @@ function playSoundBackground(sound) {
     x = Math.random() * canvas.width
     y = Math.random() < 0.5 ? 0 - raio : canvas.width + raio
     }
-    
+
     const color = 'green'
-    
+
     const angulo = Math.atan2(canvas.height / 2 - y, canvas.width / 2 - x)
     const velocidade = {
     x: Math.cos(angulo),
     y: Math.sin(angulo)
     }
-    
+
     enemies.push(new Enemy(x,y, raio, color, velocidade))
     },1000)
     }
