@@ -11,6 +11,7 @@ let fps = 15;
 loadImage("player");
 loadImage("bg");
 loadImage("gun");
+loadImage("heart");
 
 function loadImage(name) {
     images[name] = new Image();
@@ -71,7 +72,7 @@ class Gun {
     }
 }
 
-//definições das bolas
+//definição das bolas
 class Ball {
     constructor(x, y, velocidade) {
         this.x = x;
@@ -80,7 +81,14 @@ class Ball {
         this.raio = 20;
         this.cor = 'red'
     }
+
+    draw(){
+        ctx.fillStyle = this.color
+        ctx.arc(this.x, this.y, this.raio, 0, 2 * Math.PI);
+        ctx.fill();
+    }
 }
+
 
 
 /*______________________________________________RENDER______________________________________________________________________*/
@@ -96,6 +104,7 @@ let gun1 = new Gun(images["gun"])
 function render() {
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(images["bg"], 10, bgY, 253, 188, 0, 0, W, H);
+
 
     if (rightKey && player1.sx < W - 100) {
         player1.update(frameIndex * player1.swidth + 2, player1.sheight * 2)
@@ -121,12 +130,21 @@ function render() {
     }
     mouseClicked = false
 
+
     player1.draw()
     player1.update(player1.swidth * 4 + 4, -2)
 
+    //Vidas do jogador
+    ctx.drawImage(images["heart"], 20, 20, 25, 25);
+    ctx.drawImage(images["heart"], 47, 20, 25, 25);
+    ctx.drawImage(images["heart"], 74, 20, 25, 25);
+    
     frameIndex++;
     if (frameIndex == 4)
         frameIndex = 0;
+
+    
+
 }
 
 /*______________________________________________EVENTOS RATO E TECLADO______________________________________________________________________*/
