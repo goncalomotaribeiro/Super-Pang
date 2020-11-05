@@ -72,24 +72,55 @@ class Gun {
     }
 }
 
+let gravidade = 0.2
+
 //definição das bolas
 class Ball {
-    constructor(x, y, velocidade) {
-        this.x = x;
-        this.y = y;
-        this.velocidade = velocidade;
-        this.raio = 20;
-        this.cor = 'red'
+    constructor(x, y, r, d, c, v) {	// CONSTRUCTOR
+        this.x = x; // initial X position
+        this.y = y;	// initial Y position
+        this.dX = v * Math.cos(d);  //deslocamento horizontal
+        this.dY = v * Math.sin(d);  //deslocamento vertical
+        this.c = c; // cor
+        this.R = r; // raio
     }
 
-    draw(){
-        ctx.fillStyle = this.color
-        ctx.arc(this.x, this.y, this.raio, 0, 2 * Math.PI);
+    draw() {
+        ctx.fillStyle = this.c;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.R, 0, 2 * Math.PI);
         ctx.fill();
+    }
+    update() {
+        // Colisão com as "bordas" do bg
+        if (this.x < this.R * 2 || this.x > W - this.R * 2)
+            this.dX = -this.dX;
+            
+        if (this.y < this.R * 2 || this.y > H - this.R * 2)
+            this.dY = -this.dY;
+        this.x += this.dX;	// update horizontal position 
+        this.y += this.dY;	// update vertical position 
     }
 }
 
+let b = new Array(); // setup as many balls as wanted
+for (let i = 0; i < 1; i++) {
 
+    let color = '#8B0000'; // random color
+
+    // random direction
+    let direction = Math.random() * 2 * Math.PI;
+
+    let raio = 20
+
+    // random position (inside Canvas)
+    let xInit = 2 * raio + Math.random() * (W - 2 * 2 * raio);
+    let yInit = 2 * raio + Math.random() * (H - 2 * 2 * raio);
+
+    let velocidade = 10;
+
+    b.push(new Ball(xInit, yInit, raio, direction, color, velocidade))
+}
 
 /*______________________________________________RENDER______________________________________________________________________*/
 
@@ -100,6 +131,8 @@ let bgY = Math.floor(Math.random() * 20) * 200 + 10;
 
 let player1 = new Player(images["player"])
 let gun1 = new Gun(images["gun"])
+
+
 
 function render() {
     ctx.clearRect(0, 0, W, H);
@@ -138,12 +171,16 @@ function render() {
     ctx.drawImage(images["heart"], 20, 20, 25, 25);
     ctx.drawImage(images["heart"], 47, 20, 25, 25);
     ctx.drawImage(images["heart"], 74, 20, 25, 25);
-    
+
     frameIndex++;
     if (frameIndex == 4)
         frameIndex = 0;
 
-    
+    b.forEach(function (ball) {
+        ball.draw();
+        ball.update();
+    });
+
 
 }
 
