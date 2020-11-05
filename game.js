@@ -4,7 +4,7 @@ const ctx = canvas.getContext("2d");
 const W = canvas.width, H = canvas.height;
 
 let images = {};
-let totalResources = 3;
+let totalResources = 4;
 let numResourcesLoaded = 0;
 let fps = 15;
 
@@ -12,6 +12,7 @@ loadImage("player");
 loadImage("bg");
 loadImage("gun");
 loadImage("heart");
+loadImage("balloons");
 
 function loadImage(name) {
     images[name] = new Image();
@@ -71,6 +72,52 @@ class Gun {
         this.sy = sY
     }
 }
+
+class Ballon {
+    constructor(img) {
+        this.img = img
+        this.swidth = img.width / 2.65
+        this.sheight = img.height / 3
+        this.cx = 0
+        this.cy = 0
+        this.sx = 20
+        this.sy = H - 100
+        this.w = 100
+        this.h = 100
+        this.angle = -85 * Math.PI / 180
+        this.a = 1		//acceleration (gravity = 0.1 pixels per frame)
+        this.vX = 60 * Math.cos(this.angle) //initial velocity in X
+        this.vY = 20 * Math.sin(this.angle) 	//initial velocity in Y
+    }
+
+    draw() {
+        ctx.drawImage(this.img, this.cx, this.cy, this.swidth, this.sheight, this.sx, this.sy, this.w, this.h);
+    }
+
+    update(sX, sY) {
+        if (this.sy > H - this.sheight - 45) {
+            this.vY = -this.vY
+        }else{
+            this.vY += this.a; // increase circle velocity in Y (accelerated motion)
+        }
+        if (this.sx > W - this.swidth - 60) {
+            this.wall = 1
+        }
+
+        if (this.wall == 1) {
+            this.sx -= this.vX; // update circle X position (uniform motion)
+        }
+        if (this.sx < 0 + 21) {
+            this.wall = 0
+        }
+
+        if (this.wall == 0) {
+            this.sx += this.vX; // update circle X position (uniform motion)
+        }
+        this.sy += this.vY; // update circle Y position 
+    }
+}
+
 
 let gravidade = 0.2
 
@@ -132,12 +179,12 @@ let bgY = Math.floor(Math.random() * 20) * 200 + 10;
 let player1 = new Player(images["player"])
 let gun1 = new Gun(images["gun"])
 
+let ballon = new Ballon(images["balloons"])
 
 
 function render() {
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(images["bg"], 10, bgY, 253, 188, 0, 0, W, H);
-
 
     if (rightKey && player1.sx < W - 100) {
         player1.update(frameIndex * player1.swidth + 2, player1.sheight * 2)
@@ -150,7 +197,7 @@ function render() {
 
     if (mouseClicked == true) {
         player1.update(player1.swidth * 5 + 4, 0)
-        gun1.update(player1.sx + 15, player1.sy)
+        gun1.update(player1.sx + 13, player1.sy)
         shoot = 1
     }
 
@@ -163,9 +210,11 @@ function render() {
     }
     mouseClicked = false
 
-
     player1.draw()
     player1.update(player1.swidth * 4 + 4, -2)
+
+    ballon.draw()
+    ballon.update(player1.sx, player1.sy)
 
     //Vidas do jogador
     ctx.drawImage(images["heart"], 20, 20, 25, 25);
@@ -175,12 +224,6 @@ function render() {
     frameIndex++;
     if (frameIndex == 4)
         frameIndex = 0;
-
-    b.forEach(function (ball) {
-        ball.draw();
-        ball.update();
-    });
-
 
 }
 
