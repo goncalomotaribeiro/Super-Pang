@@ -88,14 +88,29 @@ class Ballon {
         this.a = 1.3		//acceleration (gravity = 0.1 pixels per frame)
         this.vX = 60 * Math.cos(this.angle) //initial velocity in X
         this.vY = 5 * Math.sin(this.angle) 	//initial velocity in Y
+        this.borderH = 80
+        this.borderW = 60
     }
 
     draw() {
         ctx.drawImage(this.img, this.cx, this.cy, this.swidth, this.sheight, this.sx, this.sy, this.w, this.h);
     }
 
-    update(sX, sY) {
-        if (this.sy > H - this.sheight - 80) {
+    update(sX, sY, nCollisions) {
+        if (nCollisions == 1) {
+            this.w = 50
+            this.h = 50
+            this.borderH = 20
+            this.borderW = 10
+        }
+        if (nCollisions == 2) {
+            this.w = 10
+            this.h = 10
+            this.borderH = -20
+            this.borderW = -10
+        }
+
+        if (this.sy > H - this.sheight - this.borderH) {
             this.vY = -this.vY
         }else{
             this.vY += this.a; // increase circle velocity in Y (accelerated motion)
@@ -104,7 +119,7 @@ class Ballon {
             this.vY = -this.vY
         }
 
-        if (this.sx > W - this.swidth - 60) {
+        if (this.sx > W - this.swidth - this.borderW) {
             this.wall = 1
         }
 
@@ -183,12 +198,21 @@ let bgY = Math.floor(Math.random() * 20) * 200 + 10;
 let player1 = new Player(images["player"])
 let gun1 = new Gun(images["gun"])
 
+
+let nCollisions = 0
 let ballon = new Ballon(images["balloons"])
 
+let bArray = new Array();
+bArray.push(ballon)
 
 function render() {
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(images["bg"], 10, bgY, 253, 188, 0, 0, W, H);
+
+    bArray.forEach(function (ballon) {
+        ballon.draw()
+        ballon.update(player1.sx, player1.sy, nCollisions)
+    });
 
     if (rightKey && player1.sx < W - 100) {
         player1.update(frameIndex * player1.swidth + 2, player1.sheight * 2)
@@ -212,13 +236,26 @@ function render() {
         gun1.update(player1.sx, player1.sy)
         shoot = 0
     }
+
+    if (ballon.sx + ballon.w < gun1.sx
+        //totally to the left: no collision
+        || ballon.sx > gun1.sx + gun1.w
+        //totally to the right: no collision
+        || ballon.sy + ballon.h < gun1.sy
+        //totally above: no collision
+        || ballon.sy > gun1.sy + gun1.h) {
+        //totally below: no collision
+        } else {
+            nCollisions++
+            ballon = new Ballon(images["balloons"])
+            bArray.push(ballon)
+        }
+        
     mouseClicked = false
 
     player1.draw()
     player1.update(player1.swidth * 4 + 4, -2)
 
-    ballon.draw()
-    ballon.update(player1.sx, player1.sy)
 
     //Vidas do jogador
     ctx.drawImage(images["heart"], 20, 20, 25, 25);
