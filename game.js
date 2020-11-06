@@ -81,13 +81,13 @@ class Ballon {
         this.cx = 0
         this.cy = 0
         this.sx = 20
-        this.sy = H - 100
+        this.sy = 100
         this.w = 100
         this.h = 100
         this.angle = -85 * Math.PI / 180
-        this.a = 1		//acceleration (gravity = 0.1 pixels per frame)
+        this.a = 1.3		//acceleration (gravity = 0.1 pixels per frame)
         this.vX = 60 * Math.cos(this.angle) //initial velocity in X
-        this.vY = 20 * Math.sin(this.angle) 	//initial velocity in Y
+        this.vY = 5 * Math.sin(this.angle) 	//initial velocity in Y
     }
 
     draw() {
@@ -95,11 +95,15 @@ class Ballon {
     }
 
     update(sX, sY) {
-        if (this.sy > H - this.sheight - 45) {
+        if (this.sy > H - this.sheight - 80) {
             this.vY = -this.vY
         }else{
             this.vY += this.a; // increase circle velocity in Y (accelerated motion)
         }
+        if (this.sy < 0) {
+            this.vY = -this.vY
+        }
+
         if (this.sx > W - this.swidth - 60) {
             this.wall = 1
         }
