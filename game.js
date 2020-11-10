@@ -137,7 +137,7 @@ let player1 = new Player(images["player"])
 let gun1 = new Gun(images["gun"], -1000, -1000)
 
 let nCollisions = 0
-let ballDistance = 60
+let ballDistance = 40
 
 let colide = false
 let ballon1 = new Ballon(images["balloons"], 100, 100, 60, 80, 20, 100, 'right', 0)
@@ -174,11 +174,11 @@ function render() {
 
     for (let i = 0; i < bArray.length; i++) {
         const ballon = bArray[i];
-        if (ballon.sx + ballon.w < gun1.sx
+        if (ballon.sx + ballon.w - 20 < gun1.sx
             //totally to the left: no collision
             || ballon.sx - ballon.w + ballDistance> gun1.sx
             //totally to the right: no collision
-            || ballon.sy + ballon.h < gun1.sy
+            || ballon.sy + ballon.h - 30 < gun1.sy
             //totally above: no collision
             || ballon.sy > gun1.sy + gun1.h1) {
             //totally below: no collision
