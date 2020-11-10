@@ -137,6 +137,7 @@ let player1 = new Player(images["player"])
 let gun1 = new Gun(images["gun"], -1000, -1000)
 
 let nCollisions = 0
+let colidePlayer = false
 let ballDistance = 40
 
 let colide = false
@@ -164,9 +165,9 @@ function render() {
         shoot = 1
     }
 
-    if (shoot == 1 && gun1.sy > 10) {
+    if (shoot == 1 && gun1.sy > 5) {
         gun1.draw()
-        gun1.update(gun1.sx, gun1.sy - 20)
+        gun1.update(gun1.sx, gun1.sy - 18)
     } else {
         gun1.update(-1000, -1000)
         shoot = 0
@@ -174,6 +175,17 @@ function render() {
 
     for (let i = 0; i < bArray.length; i++) {
         const ballon = bArray[i];
+        if (ballon.sx + ballon.w < player1.sx
+            //totally to the left: no collision
+            || ballon.sx > player1.sx + player1.w
+            //totally to the right: no collision
+            || ballon.sy + ballon.h < player1.sy
+            //totally above: no collision
+            || ballon.sy > player1.sy + player1.h) {
+            
+        }else{
+            colidePlayer = true
+        }
         if (ballon.sx + ballon.w - 20 < gun1.sx
             //totally to the left: no collision
             || ballon.sx - ballon.w + ballDistance> gun1.sx
@@ -219,7 +231,9 @@ function render() {
         ballon.draw()
         ballon.update()
     }
-        
+    if (colidePlayer == true) {
+        player1.update(player1.swidth * 5 + 6, player1.sheight * 2 + 1)
+    }
     mouseClicked = false
 
     player1.draw()
