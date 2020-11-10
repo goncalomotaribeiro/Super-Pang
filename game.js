@@ -74,7 +74,7 @@ class Gun {
 }
 
 class Ballon {
-    constructor(img, w, h, borderW, borderH, sx, sy) {
+    constructor(img, w, h, borderW, borderH, sx, sy, side, collisions) {
         this.img = img
         this.swidth = img.width / 2.65
         this.sheight = img.height / 3
@@ -90,8 +90,8 @@ class Ballon {
         this.vY = 5 * Math.sin(this.angle) 	//initial velocity in Y
         this.borderW = borderW
         this.borderH = borderH
-        this.collisions = 0
-        this.side = ''
+        this.collisions = collisions
+        this.side = side
     }
 
     draw() {
@@ -108,20 +108,19 @@ class Ballon {
             this.vY = -this.vY
         }
 
-        if (this.sx > W - this.swidth - this.borderW || this.side == 'left') {
-            this.wall = 1
-            this.side = ''
+        if (this.sx > W - this.swidth - this.borderW) {
+            this.side = 'left'
         }
 
-        if (this.wall == 1) {
+        if (this.side == 'left') {
             this.sx -= this.vX; // update circle X position (uniform motion)
         }
-        if (this.sx < 0 + 21) {
-            this.wall = 0
-        }
 
-        if (this.wall == 0) {
-            this.sx += this.vX; // update circle X position (uniform motion)
+        if (this.sx < 0 + 21 ) {
+            this.side = 'right'
+        }
+        if (this.side == 'right') {
+            this.sx += this.vX;
         }
         this.sy += this.vY; // update circle Y position 
     }
@@ -137,21 +136,19 @@ let bgY = Math.floor(Math.random() * 20) * 200 + 10;
 let player1 = new Player(images["player"])
 let gun1 = new Gun(images["gun"], -1000, -1000)
 
+let nCollisions = 0
+let ballDistance = 60
+
 let colide = false
-let ballon1 = new Ballon(images["balloons"], 100, 100, 60, 80, 20, 100)
-let ballon2 = new Ballon(images["balloons"], 100, 100, 60, 80, 20, 100)
-let ballon3 = new Ballon(images["balloons"], 0, 0, 60, 80, 20, 100)
-let ballon4 = new Ballon(images["balloons"], 0, 0, 60, 80, 20, 100)
+let ballon1 = new Ballon(images["balloons"], 100, 100, 60, 80, 20, 100, 'right', 0)
+let ballon3
+let ballon4
 let bArray = new Array();
 bArray.push(ballon1)
-bArray.push(ballon2)
-bArray.push(ballon3)
-bArray.push(ballon4)
 
 function render() {
     ctx.clearRect(0, 0, W, H);
     ctx.drawImage(images["bg"], 10, bgY, 253, 188, 0, 0, W, H);
-
     if (rightKey && player1.sx < W - 100) {
         player1.update(frameIndex * player1.swidth + 2, player1.sheight * 2)
         player1.sx += 22;
@@ -179,74 +176,54 @@ function render() {
         const ballon = bArray[i];
         if (ballon.sx + ballon.w < gun1.sx
             //totally to the left: no collision
-            || ballon.sx > gun1.sx + gun1.w1
+            || ballon.sx - ballon.w + ballDistance> gun1.sx
             //totally to the right: no collision
             || ballon.sy + ballon.h < gun1.sy
             //totally above: no collision
             || ballon.sy > gun1.sy + gun1.h1) {
             //totally below: no collision
         } else {
+            shoot = 0
+            nCollisions++
             colide = true
             ballon.collisions++
-            shoot = 0
         }
-        if (colide == true && i % 2 == 0) {
-            ballon.side = 'left'
-        }
-        if(colide == true && ballon.collisions == 1 && i !=2 && i !=3){
+        if(colide == true && ballon.collisions == 1){
+            ballDistance = 0
+            ballon.side = 'right'
             ballon.w = 50
             ballon.h = 50
             ballon.borderW = 10
             ballon.borderH = 20
+            ballon3 = new Ballon(images["balloons"], 50, 50, 10, 20, ballon.sx, ballon.sy, 'left', 1)
+            bArray.push(ballon3)
             colide = false
         }
-
         if(colide == true && ballon.collisions == 2){
+            ballon.side = 'right'
             ballon.w = 20
             ballon.h = 20
             ballon.borderW = -10
-            ballon.borderH = -20
+            ballon.borderH = 0
+            ballon4 = new Ballon(images["balloons"], 20, 20, -10, 0, ballon.sx, ballon.sy, 'left', 2)
+            bArray.push(ballon4)
             colide = false
         }
-
-        if(colide == true && ballon.collisions == 3){
+        if(colide == true && ballon.collisions >= 3){
             ballon.w = 0
             ballon.h = 0
-            ballon.borderW = -10
-            ballon.borderH = -20
+            ballon.sx = -1000
+            ballon.sy = -1000
             colide = false
         }
-
         ballon.draw()
         ballon.update()
     }
-
-    /*if(colide == true && ballon1.collisions == 1){
-        
-        ballon1.w = 50
-        ballon1.h = 50
-        ballon1.borderW = 10
-        ballon1.borderH = 20
-        //ballon2 = new Ballon(images["balloons"], 50, 50, 10, 20, ballon1.sx-100, ballon1.sy)
-        bArray.push(ballon2)
-        colide = false
-    }
-
-    if(colide == true && nCollisions == 2){
-        ballon1.w = 10
-        ballon1.h = 10
-        ballon1.borderW = -10
-        ballon1.borderH = -20
-        ballon2 = new Ballon(images["balloons"], 10, 10, -10, -20, ballon1.sx-50, ballon1.sy)
-        bArray.push(ballon2)
-        colide = false
-    }*/
         
     mouseClicked = false
 
     player1.draw()
     player1.update(player1.swidth * 4 + 4, -2)
-
 
     //Vidas do jogador
     ctx.drawImage(images["heart"], 20, 20, 25, 25);
@@ -256,7 +233,6 @@ function render() {
     frameIndex++;
     if (frameIndex == 4)
         frameIndex = 0;
-
 }
 
 /*______________________________________________EVENTOS RATO E TECLADO______________________________________________________________________*/
