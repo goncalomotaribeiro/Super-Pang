@@ -139,6 +139,7 @@ let gun1 = new Gun(images["gun"], -1000, -1000)
 let nCollisions = 0
 let colidePlayer = false
 let ballDistance = 40
+let colideWall = 0
 
 let colide = false
 let ballon1 = new Ballon(images["balloons"], 100, 100, 60, 80, 20, 100, 'right', 0)
@@ -175,9 +176,9 @@ function render() {
 
     for (let i = 0; i < bArray.length; i++) {
         const ballon = bArray[i];
-        if (ballon.sx + ballon.w < player1.sx
+        if (ballon.sx + ballon.w - ballDistance< player1.sx
             //totally to the left: no collision
-            || ballon.sx > player1.sx + player1.w
+            || ballon.sx + ballDistance> player1.sx + player1.w
             //totally to the right: no collision
             || ballon.sy + ballon.h < player1.sy
             //totally above: no collision
@@ -188,13 +189,14 @@ function render() {
         }
         if (ballon.sx + ballon.w - 20 < gun1.sx
             //totally to the left: no collision
-            || ballon.sx - ballon.w + ballDistance> gun1.sx
+            || ballon.sx - ballon.w + ballDistance > gun1.sx
             //totally to the right: no collision
             || ballon.sy + ballon.h - 30 < gun1.sy
             //totally above: no collision
             || ballon.sy > gun1.sy + gun1.h1) {
             //totally below: no collision
         } else {
+            playSoundEffects('ballon2.wav')
             shoot = 0
             nCollisions++
             colide = true
@@ -233,6 +235,20 @@ function render() {
     }
     if (colidePlayer == true) {
         player1.update(player1.swidth * 5 + 6, player1.sheight * 2 + 1)
+        if (player1.sx > W - player1.swidth-100){
+            colideWall = 1
+        }
+
+        if (colideWall == 1) {
+            player1.sx -= 20
+            player1.sy += 30
+        }
+        
+        if (colideWall == 0){
+            player1.sx += 25
+            player1.sy -= 15
+        }
+        
     }
     mouseClicked = false
 
@@ -285,6 +301,7 @@ window.onload = playSoundBackground('track1.mp3')
 
 function playSoundEffects(sound) {
     const audio = new Audio('sounds/' + sound);
+    audio.volume = 1;
     audio.play();
 }
 
