@@ -1,3 +1,5 @@
+let nPlayers = localStorage.nPlayers ? JSON.parse(localStorage.nPlayers) : [];
+console.log(nPlayers);
 const canvas = document.querySelector('#myCanvas');
 const ctx = canvas.getContext("2d");
 
