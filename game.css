@@ -3,6 +3,11 @@ canvas {
     display: block;
     overflow: visible;
 }
+svg {
+    margin: auto;
+    display: block;
+    overflow: visible;
+}
 body{
     background-color: rgb(17, 17, 17);
 }
