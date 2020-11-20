@@ -3,15 +3,97 @@ canvas {
     display: block;
     overflow: visible;
 }
-svg {
+
+/* svg {
     margin: auto;
     display: block;
     overflow: visible;
-}
-body{
+} */
+
+body {
     background-color: rgb(17, 17, 17);
 }
 
-.btns { 
-    cursor: pointer;
+/* ANIMAÇÃO INICIAL */
+
+/* * {
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+} */
+
+#logo {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#logo path:nth-child(1) {
+    stroke-dasharray: 883.1704711914062px;
+    stroke-dashoffset: 883.1704711914062px;
+    animation: logo-intro 1.4s ease-in-out forwards, fill 0.9s linear forwards 0.3s;
+}
+
+#logo path:nth-child(2) {
+    stroke-dasharray: 903.1062622070312px;
+    stroke-dashoffset: 903.1062622070312px;
+    animation: logo-intro 1.4s ease-in-out forwards 0.3s, fill 0.9s linear forwards 0.6s;
+}
+
+#logo path:nth-child(3) {
+    stroke-dasharray: 849.0693969726562px;
+    stroke-dashoffset: 849.0693969726562px;
+    animation: logo-intro 1.4s ease-in-out forwards 0.6s, fill 0.9s linear forwards 0.9s;
+}
+
+#logo path:nth-child(4) {
+    stroke-dasharray: 920.6795654296875px;
+    stroke-dashoffset: 920.6795654296875px;
+    animation: logo-intro 1.4s ease-in-out forwards 0.9s, fill 0.9s linear forwards 1.2s;
+}
+
+#logo path:nth-child(5) {
+    stroke-dasharray: 1004.2451782226562px;
+    stroke-dashoffset: 1004.2451782226562px;
+    animation: logo-intro 1.4s ease-in-out forwards 1.2s, fill 0.9s linear forwards 1.5s;
+}
+
+#logo path:nth-child(6) {
+    stroke-dasharray: 849.06982421875px;
+    stroke-dashoffset: 849.06982421875px;
+    animation: logo-intro 1.4s ease-in-out forwards 1.5s, fill 0.9s linear forwards 1.8s;
+}
+
+#logo path:nth-child(7) {
+    stroke-dasharray: 953.1033935546875px;
+    stroke-dashoffset: 953.1033935546875px;
+    animation: logo-intro 1.4s ease-in-out forwards 1.8s, fill 0.9s linear forwards 2.1s;
+}
+
+#logo path:nth-child(8) {
+    stroke-dasharray: 990.8074951171875px;
+    stroke-dashoffset: 990.8074951171875px;
+    animation: logo-intro 1.4s ease-in-out forwards 2.1s, fill 0.9s linear forwards 2.4s;
+}
+
+#logo path:nth-child(9) {
+    stroke-dasharray: 869.1555786132812px;
+    stroke-dashoffset: 869.1555786132812px;
+    animation: logo-intro 1.4s ease-in-out forwards 2.4s, fill 0.9s linear forwards 2.7s;
+}
+
+@keyframes logo-intro {
+    to {
+        stroke-dashoffset: 0%;
+    }
+}
+
+@keyframes fill {
+    from {
+        fill: transparent;
+    }
+    to {
+        fill: orange;
+    }
 }
