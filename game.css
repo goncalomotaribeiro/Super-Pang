@@ -10,7 +10,6 @@ body {
 
 /* ANIMAÇÃO INICIAL */
 
-
 #logo {
     position: absolute;
     top: 40%;
@@ -84,5 +83,39 @@ body {
     }
     to {
         fill: orange;
+    }
+}
+
+/* animação do player a aparecer */
+
+.boxAnimation {
+    position: absolute;
+    top: 65%;
+    left: 80%;
+    background: url(/images/animation/player_animation_1.png);
+    width: calc(386px / 4);
+    height: 102px;
+    animation: walk 1s steps(4) infinite, forward 5s linear infinite;
+}
+
+/* animação para o movimento "andar" do player */
+
+@keyframes walk {
+    0% {
+        background-position: 0px;
+    }
+    100% {
+        background-position: 386px;
+    }
+}
+
+/* animação do player a mexer para o meio do painel */
+
+@keyframes forward {
+    0% {
+        transform: translateX(0px)
+    }
+    100% {
+        transform: translateX(-400px)
     }
 }
