@@ -30,8 +30,12 @@ function resourceLoaded() {
         player2 = new Player(images["player2"], W-100)
         ballon1 = new Ballon(images["balloons"], 100, 100, 60, 80, 20, 100, 'right', 0)
         bArray.push(ballon1)
-        setInterval(render, 1000 / fps); //start animation
+        setTimeout(start, 2000)
     }
+}
+
+function start(){
+    setInterval(render, 1000 / fps)
 }
 
 /*______________________________________________CLASSES______________________________________________________________________*/
@@ -163,7 +167,9 @@ let lifes = 3
 
 function render() {
     ctx.clearRect(0, 0, W, H);
+
     if (lifes > 0) {
+
         ctx.drawImage(images["bg"], 10, 15 * 200 + 10, 253, 188, 0, 0, W, H);
         if (dKey && player1.sx < W - 100) {
             player1.update(frameIndex * player1.swidth + 2, player1.sheight * 2)
@@ -361,6 +367,7 @@ function render() {
                 som2 = 0
             }
         }
+
         wKey = false
         arrowUpKey = false
 
@@ -384,14 +391,18 @@ function render() {
         frameIndex++;
         if (frameIndex == 4)
             frameIndex = 0;
+
     }else if(lifes < 1){
+
         ctx.drawImage(images["bg"], 10, 16 * 200 + 10, 253, 188, 0, 0, W, H);
         audioBackGround.pause();
         audioBackGround.currentTime = 0;
         som3++
+
         if (som3 == 1) {
             playSoundBackground('gameover.wav')
         }
+
         ctx.fillStyle = 'white'
         ctx.font = 'bold 50px Arial';
         let text = "GAME OVER";
@@ -449,10 +460,8 @@ window.addEventListener('keyup', ArrowReleased);
 
 /*______________________________________________AUDIO______________________________________________________________________*/
 
-        
-const audioBackGround = new Audio('sounds/introgame.flac');
-audioBackGround.volume = 0.3;
-audioBackGround.play()
+const audioBackGround = new Audio('sounds/track2.mp3');
+audioBackGround.volume = 0.15;
 
 const audioLostFife = new Audio('sounds/lostlife.wav');
 audioLostFife.volume = 0.1;
@@ -468,3 +477,16 @@ function playSoundBackground(sound) {
     audio.volume = 0.3;
     audio.play();
 }
+
+/*______________________________________________MOSTRAR NIVEL______________________________________________________________________*/
+
+function showLevel(){
+    ctx.fillStyle = 'white'
+    ctx.font = 'bold 50px Arial';
+    let text = "LEVEL 1";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText (text, canvas.width/2, canvas.height/2);
+}
+
+showLevel()
