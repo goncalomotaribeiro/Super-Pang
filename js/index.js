@@ -9,6 +9,6 @@ btnPlayer1.addEventListener('click', () =>{
 })
 
 btnPlayer2.addEventListener('click', () =>{
-    window.location.href='../j1-n1.html'
+    window.location.href='../j2-n1.html'
     localStorage.setItem('nPlayers', JSON.stringify(2));
 })
