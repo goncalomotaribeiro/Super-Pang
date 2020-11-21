@@ -10,7 +10,6 @@ body {
 
 /* ANIMAÇÃO INICIAL */
 
-
 #logo {
     position: absolute;
     top: 40%;
@@ -84,5 +83,118 @@ body {
     }
     to {
         fill: orange;
+    }
+}
+
+/* Animação botao jogador 1*/
+#jogador1 {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 60px;
+    text-align: center;
+    font-family: sans-serif;
+    line-height: 60%;
+    text-transform: uppercase;
+    font-size: 24px;
+    letter-spacing: 4px;
+    color: #fff;
+    text-decoration: none;
+}
+
+#jogador1 svg, #jogador1 svg rect {
+    position: absolute;
+    top: -35%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    fill: transparent;
+}
+
+#jogador1 svg rect {
+    stroke: #fff;
+    stroke-width: 4;
+    transition: 2s;
+    stroke-dasharray: 60, 200;
+    stroke-dashoffset: 320;
+}
+
+#jogador1:hover svg rect {
+    stroke-dasharray: 200, 60;
+    stroke-dashoffset: 0;
+    stroke: #ff0;
+}
+
+/* Animação botao jogador 2*/
+#jogador2 {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 60px;
+    text-align: center;
+    font-family: sans-serif;
+    line-height: 60%;
+    text-transform: uppercase;
+    font-size: 24px;
+    letter-spacing: 4px;
+    color: #fff;
+    text-decoration: none;
+}
+
+#jogador2 svg, #jogador2 svg rect {
+    position: absolute;
+    top: -35%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    fill: transparent;
+}
+
+#jogador2 svg rect {
+    stroke: #fff;
+    stroke-width: 4;
+    transition: 2s;
+    stroke-dasharray: 60, 200;
+    stroke-dashoffset: 320;
+}
+
+#jogador2:hover svg rect {
+    stroke-dasharray: 200, 60;
+    stroke-dashoffset: 0;
+    stroke: orangered;
+}
+
+/* animação do player a aparecer */
+.boxAnimation {
+    position: absolute;
+    top: 65%;
+    left: 80%;
+    background: url(/images/animation/player_animation_1.png);
+    width: calc(386px / 4);
+    height: 102px;
+    animation: walk 1s steps(4) infinite, forward 5s linear infinite;
+}
+
+/* animação para o movimento "andar" do player */
+@keyframes walk {
+    0% {
+        background-position: 0px;
+    }
+    100% {
+        background-position: 386px;
+    }
+}
+
+/* animação do player a mexer para o meio do painel */
+@keyframes forward {
+    0% {
+        transform: translateX(0px)
+    }
+    100% {
+        transform: translateX(-400px)
     }
 }
