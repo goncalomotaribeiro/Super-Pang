@@ -3,15 +3,13 @@ const svg = document.querySelector('#svg');
 let btnPlayer1 = document.querySelector('#btnPlayer1')
 let btnPlayer2 = document.querySelector('#btnPlayer2')
 
-// btnPlayer1.addEventListener('click', () =>{
-//     window.location.href='../j1-n1.html'
-//     localStorage.setItem('nPlayers', JSON.stringify(1));
-// })
+/*btnPlayer1.addEventListener('click', () =>{
+    window.location.href='../j1-n1.html'
+})
 
-// btnPlayer2.addEventListener('click', () =>{
-//     window.location.href='../j1-n1.html'
-//     localStorage.setItem('nPlayers', JSON.stringify(2));
-// })
+btnPlayer2.addEventListener('click', () =>{
+    window.location.href='../j2-n1.html'
+})*/
 
 
 const log = document.querySelectorAll("#logo path");
@@ -30,3 +28,11 @@ Letter 5 is 849.06982421875
 Letter 6 is 953.1033935546875
 Letter 7 is 990.8074951171875
 Letter 8 is 869.1555786132812*/
+
+window.onload = playSoundBackground('introgame.flac')
+
+function playSoundBackground(sound) {
+    const audio = new Audio('sounds/' + sound);
+    audio.volume = 0.3;
+    audio.play();
+}
