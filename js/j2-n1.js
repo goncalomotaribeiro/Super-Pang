@@ -415,7 +415,6 @@ function render() {
 
         setTimeout(function(){ window.location.href='../index.html'; }, 7000);
     }
-
     if (bArray.length == 4) {
         if (bArray.every(ball => ball.collisions == 3)) {
             win = true
