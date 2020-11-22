@@ -3,15 +3,6 @@ const svg = document.querySelector('#svg');
 let btnPlayer1 = document.querySelector('#btnPlayer1')
 let btnPlayer2 = document.querySelector('#btnPlayer2')
 
-/*btnPlayer1.addEventListener('click', () =>{
-    window.location.href='../j1-n1.html'
-})
-
-btnPlayer2.addEventListener('click', () =>{
-    window.location.href='../j2-n1.html'
-})*/
-
-
 const log = document.querySelectorAll("#logo path");
 
 for (let i = 0; i < log.length; i++) {

@@ -29,8 +29,10 @@ function resourceLoaded() {
         player1 = new Player(images["player"], 20)
         player2 = new Player(images["player2"], W-100)
         ballon1 = new Ballon(images["balloons"], 100, 100, 60, 80, 20, 100, 'right', 0)
+        ballon2 = new Ballon(images["balloons"], 100, 100, 60, 80, W-100, 50, 'left', 0)
         bArray.push(ballon1)
-        setTimeout(start, 7000)
+        bArray.push(ballon2)
+        setTimeout(start, 2000)
     }
 }
 
@@ -154,12 +156,10 @@ let colideWall1 = 0, colideWall2 = 0
 
 let colide = false
 let ballon1;
-//let ballon2 = new Ballon(images["balloons"], 100, 100, 60, 80, W-100, 50, 'left', 0)
+let ballon2;
 let ballon3
 let ballon4
 let bArray = new Array();
-
-//bArray.push(ballon2)
 
 let som1 = 0, som2 = 0, som3 = 0
 
@@ -173,7 +173,7 @@ function render() {
     if (lifes > 0 && win == false) {
 
         audioBackGround.play()
-        ctx.drawImage(images["bg"], 10, 15 * 200 + 10, 253, 188, 0, 0, W, H);
+        ctx.drawImage(images["bg"], 10, 12 * 200 + 10, 253, 188, 0, 0, W, H);
         if (dKey && player1.sx < W - 100) {
             player1.update(frameIndex * player1.swidth + 2, player1.sheight * 2)
             player1.sx += 22;
@@ -397,7 +397,7 @@ function render() {
 
     }else if(lifes < 1){
 
-        ctx.drawImage(images["bg"], 10, 16 * 200 + 10, 253, 188, 0, 0, W, H);
+        ctx.drawImage(images["bg"], 10, 13 * 200 + 10, 253, 188, 0, 0, W, H);
         audioBackGround.pause();
         audioBackGround.currentTime = 0;
         som3++
@@ -420,7 +420,7 @@ function render() {
         if (bArray.every(ball => ball.collisions == 3)) {
             win = true
 
-            ctx.drawImage(images["bg"], 10, 15 * 200 + 10, 253, 188, 0, 0, W, H);
+            ctx.drawImage(images["bg"], 10, 12 * 200 + 10, 253, 188, 0, 0, W, H);
             audioBackGround.pause();
             audioBackGround.currentTime = 0;
             som3++
@@ -435,7 +435,7 @@ function render() {
             ctx.textBaseline = "middle";
             ctx.fillText (text, canvas.width/2, canvas.height/2);
 
-            setTimeout(function(){ window.location.href='../j2-n2.html'; }, 4000);
+            setTimeout(function(){ window.location.href='../index.html'; }, 4000);
         }
     }
     
@@ -506,23 +506,14 @@ function playSoundBackground(sound) {
 
 /*______________________________________________MOSTRAR NIVEL______________________________________________________________________*/
 
-function showControls(){
-    let img = new Image();
-    img.src = 'images/j2-controls.png';
-    img.onload = function () {
-    ctx.drawImage(img, canvas.width/2-img.width/2 -30, canvas.height/2-img.height/2-20);
-};
-}
-
 function showLevel(){
     ctx.clearRect(0, 0, W, H);
     ctx.fillStyle = 'white'
     ctx.font = 'bold 50px Arial';
-    let text = "LEVEL 1";
+    let text = "LEVEL 2";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText (text, canvas.width/2, canvas.height/2);
 }
 
-showControls()
-setTimeout(showLevel, 5000)
+showLevel()

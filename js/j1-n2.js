@@ -27,10 +27,11 @@ function resourceLoaded() {
     numResourcesLoaded++;
     if (numResourcesLoaded == totalResources) {
         player1 = new Player(images["player"], 20)
-        player2 = new Player(images["player2"], W-100)
         ballon1 = new Ballon(images["balloons"], 100, 100, 60, 80, 20, 100, 'right', 0)
+        ballon2 = new Ballon(images["balloons"], 100, 100, 60, 80, W-100, 50, 'left', 0)
         bArray.push(ballon1)
-        setTimeout(start, 7000)
+        bArray.push(ballon2)
+        setTimeout(start, 2000)
     }
 }
 
@@ -137,35 +138,29 @@ class Ballon {
 
 /*______________________________________________RENDER______________________________________________________________________*/
 
-let dKey = false, aKey = false , wKey = false, arrowRightKey = false, arrowLeftKey = false, arrowUpKey = false, mouseClicked = false;
+let dKey = false, aKey = false , wKey = false
 let frameIndex = 0;
-let shoot = 0, shoot2 = 0
+let shoot = 0
 
 let player1;
-let player2;
 let gun1 = new Gun(images["gun"], -1000, -1000)
-let gun2 = new Gun(images["gun"], -1000, -1000)
 
 let nCollisions = 0
 let colidePlayer1 = false
-let colidePlayer2 = false
 let ballDistance = 40
-let colideWall1 = 0, colideWall2 = 0
+let colideWall1 = 0
 
 let colide = false
 let ballon1;
-//let ballon2 = new Ballon(images["balloons"], 100, 100, 60, 80, W-100, 50, 'left', 0)
+let ballon2;
 let ballon3
 let ballon4
 let bArray = new Array();
 
-//bArray.push(ballon2)
-
-let som1 = 0, som2 = 0, som3 = 0
+let som1 = 0, som3 = 0
 
 let lifes = 3
 let win = false, nballs = 0
-
 
 function render() {
     ctx.clearRect(0, 0, W, H);
@@ -173,7 +168,8 @@ function render() {
     if (lifes > 0 && win == false) {
 
         audioBackGround.play()
-        ctx.drawImage(images["bg"], 10, 15 * 200 + 10, 253, 188, 0, 0, W, H);
+        ctx.drawImage(images["bg"], 10, 12 * 200 + 10, 253, 188, 0, 0, W, H);
+
         if (dKey && player1.sx < W - 100) {
             player1.update(frameIndex * player1.swidth + 2, player1.sheight * 2)
             player1.sx += 22;
@@ -183,27 +179,11 @@ function render() {
             player1.sx -= 22;
         }
 
-        if (arrowRightKey && player2.sx < W - 100) {
-            player2.update(frameIndex * player2.swidth + 2, player2.sheight * 2)
-            player2.sx += 22;
-        }
-        if (arrowLeftKey && player2.sx > 20) {
-            player2.update(frameIndex * player2.swidth + 2, - 2)
-            player2.sx -= 22;
-        }
-
         if (wKey == true && colidePlayer1 == false) {
             playSoundEffects('shoot1.wav')
             player1.update(player1.swidth * 5 + 4, 0)
             gun1.update(player1.sx + 13, player1.sy)
             shoot = 1
-        }
-
-        if (arrowUpKey == true && colidePlayer2 == false) {
-            playSoundEffects('shoot1.wav')
-            player2.update(player2.swidth * 5 + 4, 0)
-            gun2.update(player2.sx + 13, player2.sy)
-            shoot2 = 1
         }
 
         if (shoot == 1 && gun1.sy > 5) {
@@ -212,14 +192,6 @@ function render() {
         } else {
             gun1.update(-1000, -1000)
             shoot = 0
-        }
-
-        if (shoot2 == 1 && gun2.sy > 5) {
-            gun2.draw()
-            gun2.update(gun2.sx, gun2.sy - 18)
-        } else {
-            gun2.update(-1000, -1000)
-            shoot2 = 0
         }
 
         for (let i = 0; i < bArray.length; i++) {
@@ -241,23 +213,6 @@ function render() {
                 }
             }
 
-            if (ballon.sx + ballon.w - ballDistance< player2.sx
-                //totally to the left: no collision
-                || ballon.sx + ballDistance> player2.sx + player2.w
-                //totally to the right: no collision
-                || ballon.sy + ballon.h < player2.sy
-                //totally above: no collision
-                || ballon.sy > player2.sy + player2.h) {
-                
-            }else{
-                colidePlayer2 = true
-                som2++
-                if(som2 == 1){
-                    audioLostFife.play();
-                    lifes--
-                }
-            }
-
             if (ballon.sx + ballon.w - 20 < gun1.sx
                 //totally to the left: no collision
                 || ballon.sx - ballon.w + ballDistance > gun1.sx
@@ -269,22 +224,6 @@ function render() {
             } else {
                 playSoundEffects('ballon2.wav')
                 shoot = 0
-                nCollisions++
-                colide = true
-                ballon.collisions++
-            }
-
-            if (ballon.sx + ballon.w - 20 < gun2.sx
-                //totally to the left: no collision
-                || ballon.sx - ballon.w + ballDistance > gun2.sx
-                //totally to the right: no collision
-                || ballon.sy + ballon.h - 30 < gun2.sy
-                //totally above: no collision
-                || ballon.sy > gun2.sy + gun2.h1) {
-                //totally below: no collision
-            } else {
-                playSoundEffects('ballon2.wav')
-                shoot2 = 0
                 nCollisions++
                 colide = true
                 ballon.collisions++
@@ -321,6 +260,7 @@ function render() {
             ballon.draw()
             ballon.update()
         }
+
         if (colidePlayer1 == true) {
             player1.update(player1.swidth * 5 + 6, player1.sheight * 2 + 1)
             if (player1.sx > W - player1.swidth-100){
@@ -346,38 +286,10 @@ function render() {
             }
         }
 
-        if (colidePlayer2 == true) {
-            player2.update(player2.swidth * 5 + 6, player2.sheight * 2 + 1)
-            if (player2.sx > W - player2.swidth-100){
-                colideWall2 = 1
-            }
-
-            if (colideWall2 == 1) {
-                player2.sx -= 20
-                player2.sy += 30
-            }
-            
-            if (colideWall2 == 0){
-                player2.sx += 25
-                player2.sy -= 15
-            }
-
-            if (player2.sy > 800) {
-                player2.sx = W-100
-                player2.sy = H - 110
-                colidePlayer2 = false
-                colideWall2 = 0
-                som2 = 0
-            }
-        }
-
         wKey = false
-        arrowUpKey = false
-
+        
         player1.draw()
         player1.update(player1.swidth * 4 + 4, -2)
-        player2.draw()
-        player2.update(player2.swidth * 4 + 4, -2)
 
         //Vidas do jogador
         if (lifes == 3) {
@@ -396,12 +308,11 @@ function render() {
             frameIndex = 0;
 
     }else if(lifes < 1){
-
-        ctx.drawImage(images["bg"], 10, 16 * 200 + 10, 253, 188, 0, 0, W, H);
+        
+        ctx.drawImage(images["bg"], 10, 13 * 200 + 10, 253, 188, 0, 0, W, H);
         audioBackGround.pause();
         audioBackGround.currentTime = 0;
         som3++
-
         if (som3 == 1) {
             playSoundBackground('gameover.wav')
         }
@@ -415,12 +326,12 @@ function render() {
 
         setTimeout(function(){ window.location.href='../index.html'; }, 7000);
     }
-
-    if (bArray.length == 4) {
+    console.log(bArray.length);
+    if (bArray.length == 8) {
         if (bArray.every(ball => ball.collisions == 3)) {
             win = true
 
-            ctx.drawImage(images["bg"], 10, 15 * 200 + 10, 253, 188, 0, 0, W, H);
+            ctx.drawImage(images["bg"], 10, 12 * 200 + 10, 253, 188, 0, 0, W, H);
             audioBackGround.pause();
             audioBackGround.currentTime = 0;
             som3++
@@ -435,10 +346,9 @@ function render() {
             ctx.textBaseline = "middle";
             ctx.fillText (text, canvas.width/2, canvas.height/2);
 
-            setTimeout(function(){ window.location.href='../j2-n2.html'; }, 4000);
+            setTimeout(function(){ window.location.href='../index.html'; }, 4000);
         }
     }
-    
 }
 
 /*______________________________________________EVENTOS RATO E TECLADO______________________________________________________________________*/
@@ -453,15 +363,6 @@ function ArrowPressed(e) {
     if (e.keyCode == 87) {
         wKey = true;
     }
-    if (e.keyCode == 39) {
-        arrowRightKey = true;
-    }
-    if (e.keyCode == 37) {
-        arrowLeftKey = true;
-    }
-    if (e.keyCode == 38) {
-        arrowUpKey = true;
-    }
     e.preventDefault()
 }
 
@@ -472,13 +373,6 @@ function ArrowReleased(e) {
     } else if (e.keyCode == 65)
         aKey = false;
     player1.cx = player1.swidth * 4 + 4
-
-    if (e.keyCode == 39) {
-        arrowRightKey = false;
-        player2.cy = -2
-    } else if (e.keyCode == 37)
-        arrowLeftKey = false;
-    player2.cx = player2.swidth * 4 + 4
 }
 
 window.addEventListener('keydown', ArrowPressed);
@@ -486,7 +380,8 @@ window.addEventListener('keyup', ArrowReleased);
 
 /*______________________________________________AUDIO______________________________________________________________________*/
 
-const audioBackGround = new Audio('sounds/track2.mp3');
+        
+const audioBackGround = new Audio('sounds/track1.mp3');
 audioBackGround.volume = 0.1;
 
 const audioLostFife = new Audio('sounds/lostlife.wav');
@@ -506,23 +401,13 @@ function playSoundBackground(sound) {
 
 /*______________________________________________MOSTRAR NIVEL______________________________________________________________________*/
 
-function showControls(){
-    let img = new Image();
-    img.src = 'images/j2-controls.png';
-    img.onload = function () {
-    ctx.drawImage(img, canvas.width/2-img.width/2 -30, canvas.height/2-img.height/2-20);
-};
-}
-
 function showLevel(){
-    ctx.clearRect(0, 0, W, H);
     ctx.fillStyle = 'white'
     ctx.font = 'bold 50px Arial';
-    let text = "LEVEL 1";
+    let text = "LEVEL 2";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText (text, canvas.width/2, canvas.height/2);
 }
 
-showControls()
-setTimeout(showLevel, 5000)
+showLevel()

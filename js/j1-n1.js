@@ -29,7 +29,7 @@ function resourceLoaded() {
         player1 = new Player(images["player"], 20)
         ballon1 = new Ballon(images["balloons"], 100, 100, 60, 80, 20, 100, 'right', 0)
         bArray.push(ballon1)
-        setTimeout(start, 2000)
+        setTimeout(start, 7000)
     }
 }
 
@@ -150,21 +150,20 @@ let colideWall1 = 0
 
 let colide = false
 let ballon1;
-//let ballon2 = new Ballon(images["balloons"], 100, 100, 60, 80, W-100, 50, 'left', 0)
 let ballon3
 let ballon4
 let bArray = new Array();
 
-//bArray.push(ballon2)
 
 let som1 = 0, som3 = 0
 
 let lifes = 3
+let win = false, nballs = 0
 
 function render() {
     ctx.clearRect(0, 0, W, H);
 
-    if (lifes > 0) {
+    if (lifes > 0 && win == false) {
 
         audioBackGround.play()
         ctx.drawImage(images["bg"], 10, 15 * 200 + 10, 253, 188, 0, 0, W, H);
@@ -325,7 +324,29 @@ function render() {
 
         setTimeout(function(){ window.location.href='../index.html'; }, 7000);
     }
-    
+
+    if (bArray.length == 4) {
+        if (bArray.every(ball => ball.collisions == 3)) {
+            win = true
+
+            ctx.drawImage(images["bg"], 10, 15 * 200 + 10, 253, 188, 0, 0, W, H);
+            audioBackGround.pause();
+            audioBackGround.currentTime = 0;
+            som3++
+            if (som3 == 1) {
+                playSoundBackground('wingame.wav')
+            }
+
+            ctx.fillStyle = 'white'
+            ctx.font = 'bold 50px Arial';
+            let text = "YOU WIN";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText (text, canvas.width/2, canvas.height/2);
+
+            setTimeout(function(){ window.location.href='../j1-n2.html'; }, 4000);
+        }
+    }
 }
 
 /*______________________________________________EVENTOS RATO E TECLADO______________________________________________________________________*/
@@ -359,7 +380,7 @@ window.addEventListener('keyup', ArrowReleased);
 
         
 const audioBackGround = new Audio('sounds/track2.mp3');
-audioBackGround.volume = 0.15;
+audioBackGround.volume = 0.1;
 
 const audioLostFife = new Audio('sounds/lostlife.wav');
 audioLostFife.volume = 0.1;
@@ -377,8 +398,20 @@ function playSoundBackground(sound) {
 }
 
 /*______________________________________________MOSTRAR NIVEL______________________________________________________________________*/
+function showControls(){
+    ctx.fillStyle = 'white'
+    ctx.font = 'bold 25px Arial';
+    let text2 = "PLAYER 1";
+    ctx.fillText (text2, 340, 70);
+    let img = new Image();
+    img.src = 'images/j1-controls.png';
+    img.onload = function () {
+    ctx.drawImage(img, canvas.width/2-img.width/2, canvas.height/2-img.height/2);
+};
+}
 
 function showLevel(){
+    ctx.clearRect(0, 0, W, H);
     ctx.fillStyle = 'white'
     ctx.font = 'bold 50px Arial';
     let text = "LEVEL 1";
@@ -387,4 +420,5 @@ function showLevel(){
     ctx.fillText (text, canvas.width/2, canvas.height/2);
 }
 
-showLevel()
+showControls()
+setTimeout(showLevel, 5000)
