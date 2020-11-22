@@ -486,7 +486,7 @@ window.addEventListener('keyup', ArrowReleased);
 
 /*______________________________________________AUDIO______________________________________________________________________*/
 
-const audioBackGround = new Audio('sounds/track2.mp3');
+const audioBackGround = new Audio('sounds/track1.mp3');
 audioBackGround.volume = 0.1;
 
 const audioLostFife = new Audio('sounds/lostlife.wav');
