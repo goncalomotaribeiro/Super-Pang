@@ -88,6 +88,7 @@ body {
 }
 
 /* Animação botao jogador 1*/
+
 #jogador1 {
     position: absolute;
     top: 45%;
@@ -129,6 +130,7 @@ body {
 }
 
 /* Animação botao jogador 2*/
+
 #jogador2 {
     position: absolute;
     top: 65%;
@@ -169,44 +171,98 @@ body {
     stroke: orangered;
 }
 
-/* animação do player a aparecer */
-.boxAnimation {
+/* ANIMAÇÃO DO SPRITE DO JOGADOR A ENTRAR */
+/* 
+#playerWalk {
     position: absolute;
     top: 400px;
     left: 1090px;
-    background: url(/images/animation/player_animation_1.png);
-    width: calc(386px / 4);
-    height: 102px;
     opacity: 0;
-    animation: walk 1s steps(4) infinite, forward 5s infinite;
+    background: url(/images/animation/player_animation_1.png);
+    width: calc(677PX / 7);
+    height: 102px;
+    animation: walk-player 2s steps(7) 3.36s 1 normal both;
 }
 
-/* animação para o movimento "andar" do player */
-@keyframes walk {
+@keyframes walk-player {
     0% {
         background-position: 0px;
+        transform: translateX(0px);
+        animation-play-state: running;
+        opacity: 0;
+    }
+    5% {
+        background-position: 0px;
+        opacity: 1;
+    }
+    99% {
+        transform: translateX(-430px);
+        opacity: 1;
     }
     100% {
-        background-position: 386px;
+        background-position: 677px;
+        transform: translateX(-430px);
+        opacity: 0;
+        animation-play-state: paused;
+    }
+} */
+
+/* ANIMAÇÃO DO SPRITE DO JOGADOR A DISPARAR */
+#playerShoot {
+    position: absolute;
+    top: 400px;
+    left: 650px;
+    opacity: 0;
+    background: url(/images/animation/player_animation_gun.png);
+    width: calc(196PX / 2);
+    height: 102px;
+    animation: shoot-player 4s steps(4) 1s infinite forwards;
+    /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+}
+
+@keyframes shoot-player {
+    0% {
+        background-position: 0px;
+        opacity: 0;
+    }
+    2%{
+        opacity: 1;
+    }
+    5%{
+        opacity: 1;
+    }
+    100% {
+        opacity: 1;
     }
 }
 
-/* animação do player a mexer para o meio do painel */
-@keyframes forward {
+/* ANIMAÇÃO DO SPRITE DO JOGADOR A SAIR */
+/* #playerLeave {
+    position: absolute;
+    top: 400px;
+    left: 1090px;
+    opacity: 0;
+    background: url(/images/animation/player_animation_2.png);
+    width: calc(677PX / 7);
+    height: 102px;
+    animation: leave-player 2s steps(7) 10s 1 normal both;
+    
+}
+
+@keyframes leave-player {
     0% {
-        transform: translateX(0px);
-        opacity: 0;
-    }
-    20% {
-        transform: translateX(-100px);
-        opacity: 1;
-    }
-    80% {
+        background-position: 0px;
         transform: translateX(-430px);
+        animation-play-state: running;
+    }
+    95% {
+        transform: translateX(0px);
         opacity: 1;
     }
     100% {
-        transform: translateX(-430px);
+        background-position: 677px;
+        transform: translateX(0px);
         opacity: 0;
+        animation-play-state: paused;
     }
-}
+} */
