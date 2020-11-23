@@ -187,11 +187,11 @@ body {
 @keyframes walk-player {
     0% {
         background-position: 0px;
-        transform: translateX(0px);
+        transform: translateX(100%);
         animation-play-state: running;
         opacity: 0;
     }
-    5% {
+    1% {
         background-position: 0px;
         opacity: 1;
     }
@@ -213,11 +213,11 @@ body {
     position: absolute;
     top: 400px;
     left: 650px;
-    background: url(/images/animation/player_animation_gun.png);
-    width: calc(196px/2);
+    background: url(/images/animation/player_animation_shoot.png);
+    width: calc(677px / 7);
     height: 102px;
     opacity: 0;
-    animation: shoot-player 1s steps(2) 5.52s 1 normal none;
+    animation: shoot-player 2s steps(7) 5.52s 1 normal both;
     /* animation: name duration timing-function delay iteration-count direction fill-mode; */
 }
 
@@ -225,36 +225,52 @@ body {
     0% {
         opacity: 0;
         background-position: 0px;
+        animation-play-state: running;
     }
-    2%{
-        opacity: 1;
+    1%{
         background-position: 0px;
+        opacity: 1;
+    }
+    99% {
+        opacity: 1;
     }
     100% {
-        background-position: 196px;
+        background-position: 677px;
+        opacity: 0;
+        animation-play-state: paused;
     }
 }
 
 /*ARPÃO A SAIR DO PLAYER*/
-/* #gunShoot {
+#gunShoot {
     position: absolute;
-    top: 250px;
-    left: 683px;
+    top: 210px;
+    left: 680px;
     background: url(/images/animation/gun_2.png);
-    width: calc(113px/6);
+    width: calc(104px/6);
     height: 202px;
-    animation: shoot-gun 2s steps(6) 0s 1 normal both;
-    /* animation: name duration timing-function delay iteration-count direction fill-mode; 
-}*/
+    opacity: 0;
+    animation: shoot-gun 1s steps(6) 6.55s 1 normal both;
+    /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+}
 
-/*@keyframes shoot-gun {
+@keyframes shoot-gun {
     0% {
-        
+        background-position: 0px;
+    }
+    1% {
+        opacity: 1;
+        background-position: 0px;
+    }
+    99% {
+        opacity: 1;
+        background-position: 103px;
     }
     100% {
-        
+        opacity: 0;
+        background-position: 104px;
     }
-} */
+}
 
 /* ANIMAÇÃO DO SPRITE DO JOGADOR A SAIR */
 
@@ -266,7 +282,7 @@ body {
     background: url(/images/animation/player_animation_2.png);
     width: calc(677PX / 7);
     height: 102px;
-    animation: leave-player 2s steps(7) 10s 1 normal both;
+    animation: leave-player 2s steps(7) 8.48s 1 normal both;
     
 }
 
@@ -276,13 +292,16 @@ body {
         transform: translateX(-430px);
         animation-play-state: running;
     }
+    1% {
+        opacity: 1;
+    }
     95% {
-        transform: translateX(0px);
+        /* transform: translateX(0px); */
         opacity: 1;
     }
     100% {
         background-position: 677px;
-        transform: translateX(0px);
+        transform: translateX(100%);
         opacity: 0;
         animation-play-state: paused;
     }
