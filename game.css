@@ -173,11 +173,10 @@ body {
 
 /* ANIMAÇÃO DO SPRITE DO JOGADOR A ENTRAR */
 
-/* 
 #playerWalk {
     position: absolute;
     top: 400px;
-    left: 1090px;
+    left: 1080px;
     opacity: 0;
     background: url(/images/animation/player_animation_1.png);
     width: calc(677PX / 7);
@@ -206,7 +205,7 @@ body {
         opacity: 0;
         animation-play-state: paused;
     }
-} */
+}
 
 /* ANIMAÇÃO DO SPRITE DO JOGADOR A DISPARAR */
 
@@ -217,12 +216,18 @@ body {
     background: url(/images/animation/player_animation_gun.png);
     width: calc(196px/2);
     height: 102px;
-    animation: shoot-player 1s steps(2) 0s 1 normal none;
+    opacity: 0;
+    animation: shoot-player 1s steps(2) 5.52s 1 normal none;
     /* animation: name duration timing-function delay iteration-count direction fill-mode; */
 }
 
 @keyframes shoot-player {
     0% {
+        opacity: 0;
+        background-position: 0px;
+    }
+    2%{
+        opacity: 1;
         background-position: 0px;
     }
     100% {
@@ -231,7 +236,7 @@ body {
 }
 
 /*ARPÃO A SAIR DO PLAYER*/
-#gunShoot {
+/* #gunShoot {
     position: absolute;
     top: 250px;
     left: 683px;
@@ -239,21 +244,21 @@ body {
     width: calc(113px/6);
     height: 202px;
     animation: shoot-gun 2s steps(6) 0s 1 normal both;
-    /* animation: name duration timing-function delay iteration-count direction fill-mode; */
-}
+    /* animation: name duration timing-function delay iteration-count direction fill-mode; 
+}*/
 
-@keyframes shoot-gun {
+/*@keyframes shoot-gun {
     0% {
         
     }
     100% {
         
     }
-}
+} */
 
 /* ANIMAÇÃO DO SPRITE DO JOGADOR A SAIR */
 
-/* #playerLeave {
+#playerLeave {
     position: absolute;
     top: 400px;
     left: 1090px;
@@ -281,4 +286,4 @@ body {
         opacity: 0;
         animation-play-state: paused;
     }
-} */
+}
