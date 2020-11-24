@@ -171,6 +171,9 @@ body {
     stroke: orangered;
 }
 
+
+/* animation: name duration timing-function delay iteration-count direction fill-mode; */
+
 /* ANIMAÇÃO DO SPRITE DO JOGADOR A ENTRAR */
 
 #playerWalk {
@@ -181,14 +184,13 @@ body {
     background: url(/images/animation/player_animation_1.png);
     width: calc(677PX / 7);
     height: 102px;
-    animation: walk-player 2s steps(7) 3.36s 1 normal both;
+    animation: walk-player 2s steps(7) 3.57s 1 normal both;
 }
 
 @keyframes walk-player {
     0% {
         background-position: 0px;
         transform: translateX(100%);
-        animation-play-state: running;
         opacity: 0;
     }
     1% {
@@ -203,7 +205,6 @@ body {
         background-position: 677px;
         transform: translateX(-430px);
         opacity: 0;
-        animation-play-state: paused;
     }
 }
 
@@ -213,22 +214,19 @@ body {
     position: absolute;
     top: 400px;
     left: 650px;
-    background: url(/images/animation/player_animation_shoot.png);
+    background: url(/images/animation/player_test_shoot_2.png);
     width: calc(677px / 7);
     height: 102px;
     opacity: 0;
-    animation: shoot-player 2s steps(7) 5.52s 1 normal both;
-    /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+    animation: shoot-player 3s steps(7) 5.7s 1 normal both;
 }
 
 @keyframes shoot-player {
     0% {
         opacity: 0;
         background-position: 0px;
-        animation-play-state: running;
     }
     1%{
-        background-position: 0px;
         opacity: 1;
     }
     99% {
@@ -237,7 +235,6 @@ body {
     100% {
         background-position: 677px;
         opacity: 0;
-        animation-play-state: paused;
     }
 }
 
@@ -245,13 +242,13 @@ body {
 #gunShoot {
     position: absolute;
     top: 210px;
-    left: 680px;
+    left: 687px;
     background: url(/images/animation/gun_2.png);
     width: calc(104px/6);
     height: 202px;
     opacity: 0;
-    animation: shoot-gun 1s steps(6) 6.55s 1 normal both;
-    /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+    animation: shoot-gun 1s steps(6) 7.25s 1 normal both;
+    
 }
 
 @keyframes shoot-gun {
@@ -282,7 +279,7 @@ body {
     background: url(/images/animation/player_animation_2.png);
     width: calc(677PX / 7);
     height: 102px;
-    animation: leave-player 2s steps(7) 8.48s 1 normal both;
+    animation: leave-player 2s steps(7) 8.67s 1 normal both;
     
 }
 
@@ -290,19 +287,16 @@ body {
     0% {
         background-position: 0px;
         transform: translateX(-430px);
-        animation-play-state: running;
     }
     1% {
         opacity: 1;
     }
     95% {
-        /* transform: translateX(0px); */
         opacity: 1;
     }
     100% {
         background-position: 677px;
         transform: translateX(100%);
         opacity: 0;
-        animation-play-state: paused;
     }
 }
