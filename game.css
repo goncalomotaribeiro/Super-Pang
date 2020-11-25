@@ -110,7 +110,7 @@ body {
 /* Animação botao jogador 1*/
 #jogador1 {
     position: absolute;
-    top: 45%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 200px;
@@ -152,7 +152,7 @@ body {
 
 #jogador2 {
     position: absolute;
-    top: 65%;
+    top: 70%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 200px;
@@ -194,8 +194,8 @@ body {
 /* ANIMAÇÃO DO SPRITE DO JOGADOR A ENTRAR */
 #playerWalk {
     position: absolute;
-    top: 400px;
-    left: 1080px;
+    top: 67%;
+    left: 60%;
     opacity: 0;
     background: url(/images/animation/player_animation_1.png);
     width: calc(677PX / 7);
@@ -215,12 +215,12 @@ body {
         opacity: 1;
     }
     99% {
-        transform: translateX(-429px);
+        transform: translateX(-469px);
         opacity: 1;
     }
     100% {
         background-position: 677px;
-        transform: translateX(-430px);
+        transform: translateX(-470px);
         opacity: 0;
     }
 }
@@ -229,8 +229,8 @@ body {
 
 #playerShoot {
     position: absolute;
-    top: 400px;
-    left: 650px;
+    top: 67%;
+    left: 30%;
     background: url(/images/animation/player_test_shoot_2.png);
     width: calc(677px / 7);
     height: 102px;
@@ -259,8 +259,8 @@ body {
 /*ARPÃO A SAIR DO PLAYER*/
 #gunShoot {
     position: absolute;
-    top: 210px;
-    left: 687px;
+    top: 45%;
+    left: 32.5%;
     background: url(/images/animation/gun_2.png);
     width: calc(104px/6);
     height: 202px;
@@ -292,8 +292,8 @@ body {
 
 #playerLeave {
     position: absolute;
-    top: 400px;
-    left: 1090px;
+    top: 67%;
+    left: 58%;
     opacity: 0;
     background: url(/images/animation/player_animation_2.png);
     width: calc(677PX / 7);
